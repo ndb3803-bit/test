@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>سؤال</title>
+<style>
+    body {
+        font-family: Tahoma, sans-serif;
+        text-align: center;
+        margin-top: 60px;
+        background-color: #fafafa;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    select, button {
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        min-width: 260px;
+    }
+    button {
+        cursor: pointer;
+        background-color: #ffffff;
+    }
+    button:hover {
+        background-color: #f0f0f0;
+    }
+    #message {
+        margin-top: 25px;
+        font-size: 18px;
+    }
+    #videoContainer {
+        display: none;
+        margin-top: 30px;
+    }
+    iframe {
+        border-radius: 12px;
+        border: none;
+    }
+</style>
+</head>
+<body>
+
+<h1>نام همسر کیت چیست؟</h1>
+
+<select id="answer">
+    <option value="">— انتخاب کنید —</option>
+    <option value="wrong">آنتونی بوردین</option>
+    <option value="wrong">دیوید اسپید</option>
+    <option value="wrong">ارل فرانک بروزناهان</option>
+    <option value="correct">اندرو اسپید</option>
+</select>
+
+<br>
+
+<button onclick="checkAnswer()">تأیید</button>
+
+<div id="message"></div>
+
+<div id="videoContainer">
+    <iframe
+        width="640"
+        height="360"
+        src="https://drive.google.com/file/d/1StMsgGu-_aMirGqLhUnSNV6b1qnvlerH/preview"
+        allow="autoplay"
+        allowfullscreen>
+    </iframe>
+</div>
+
+<script>
+function checkAnswer() {
+    const select = document.getElementById("answer");
+    const msg = document.getElementById("message");
+    const video = document.getElementById("videoContainer");
+
+    if (select.value === "") {
+        msg.style.color = "orange";
+        msg.innerText = "لطفاً یک گزینه انتخاب کنید";
+        video.style.display = "none";
+        return;
+    }
+
+    if (select.value === "correct") {
+        msg.style.color = "green";
+        msg.innerText = "پاسخ درست!";
+        video.style.display = "block";
+    } else {
+        msg.style.color = "red";
+        msg.innerText = "پاسخ نادرست";
+        video.style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>
