@@ -1,73 +1,132 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <title>سؤال</title>
+
+<!-- فونت -->
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
+    * {
+        box-sizing: border-box;
+        font-family: 'Vazirmatn', Tahoma, sans-serif;
+    }
+
     body {
-        font-family: Tahoma, sans-serif;
+        background: linear-gradient(to bottom, #ffeff6, #fafafa);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .quiz-card {
+        background: #fff;
+        width: 100%;
+        max-width: 520px;
+        padding: 40px 35px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         text-align: center;
-        margin-top: 60px;
-        background-color: #fafafa;
     }
+
     h1 {
-        font-size: 24px;
+        font-size: 28px;
+        margin-bottom: 25px;
+        color: #222;
     }
-    select, button {
-        padding: 12px;
-        font-size: 16px;
-        margin-top: 15px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        min-width: 260px;
-    }
-    button {
+
+    select {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 18px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
         cursor: pointer;
-        background-color: #ffffff;
     }
+
+    select:focus {
+        outline: none;
+        border-color: #ff4d8d;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+        border-radius: 30px;
+        border: none;
+        background-color: #ff4d8d;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
     button:hover {
-        background-color: #f0f0f0;
+        background-color: #e63f7a;
+        transform: translateY(-2px);
     }
+
     #message {
         margin-top: 25px;
-        font-size: 18px;
+        font-size: 20px;
+        font-weight: 600;
+        min-height: 28px;
     }
+
     #videoContainer {
         display: none;
         margin-top: 30px;
     }
+
     iframe {
-        border-radius: 12px;
+        width: 100%;
+        height: 300px;
+        border-radius: 14px;
         border: none;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 24px;
+        }
+
+        iframe {
+            height: 220px;
+        }
     }
 </style>
 </head>
+
 <body>
 
-<h1>نام همسر کیت چیست؟</h1>
+<div class="quiz-card">
+    <h1>نام همسر کیت چیست؟</h1>
 
-<select id="answer">
-    <option value="">— انتخاب کنید —</option>
-    <option value="wrong">آنتونی بوردین</option>
-    <option value="wrong">دیوید اسپید</option>
-    <option value="wrong">ارل فرانک بروزناهان</option>
-    <option value="correct">اندرو اسپید</option>
-</select>
+    <select id="answer">
+        <option value="">— انتخاب کنید —</option>
+        <option value="wrong">آنتونی بوردین</option>
+        <option value="wrong">دیوید اسپید</option>
+        <option value="wrong">ارل فرانک بروزناهان</option>
+        <option value="correct">اندرو اسپید</option>
+    </select>
 
-<br>
+    <button onclick="checkAnswer()">تأیید پاسخ</button>
 
-<button onclick="checkAnswer()">تأیید</button>
+    <div id="message"></div>
 
-<div id="message"></div>
-
-<div id="videoContainer">
-    <iframe
-        width="640"
-        height="360"
-        src="https://drive.google.com/file/d/1StMsgGu-_aMirGqLhUnSNV6b1qnvlerH/preview"
-        allow="autoplay"
-        allowfullscreen>
-    </iframe>
+    <div id="videoContainer">
+        <iframe
+            src="https://drive.google.com/file/d/1GPUwW4VmQBOzUj3AgHUljvlpm3N1nVuJ/preview"
+            allow="autoplay"
+            allowfullscreen>
+        </iframe>
+    </div>
 </div>
 
 <script>
@@ -77,19 +136,19 @@ function checkAnswer() {
     const video = document.getElementById("videoContainer");
 
     if (select.value === "") {
-        msg.style.color = "orange";
+        msg.style.color = "#ff9800";
         msg.innerText = "لطفاً یک گزینه انتخاب کنید";
         video.style.display = "none";
         return;
     }
 
     if (select.value === "correct") {
-        msg.style.color = "green";
-        msg.innerText = "پاسخ درست!";
+        msg.style.color = "#2e7d32";
+        msg.innerText = "پاسخ درست! 🎉";
         video.style.display = "block";
     } else {
-        msg.style.color = "red";
-        msg.innerText = "پاسخ نادرست";
+        msg.style.color = "#c62828";
+        msg.innerText = "پاسخ نادرست ❌";
         video.style.display = "none";
     }
 }
