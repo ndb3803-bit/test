@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برند کیتبگ | Kate Spade New York</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f7f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* هدر و ناوبری */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 24px;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: #ff4d8d;
+        }
+        
+        .logo i {
+            margin-left: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-right: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #ff4d8d;
+        }
+        
+        /* بخش هیرو */
+        .hero {
+            background: linear-gradient(to right, #ffeff6, #fff);
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: #666;
+        }
+        
+        .brand-color {
+            color: #ff4d8d;
+            font-weight: bold;
+        }
+        
+        /* بخش تاریخچه */
+        .history {
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2 {
+            font-size: 32px;
+            color: #222;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: #ff4d8d;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+        }
+        
+        .timeline {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .timeline-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .timeline-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .timeline-year {
+background-color: #ff4d8d;
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 0 auto 20px;
+        }
+        
+        /* بخش محصولات */
+        .products {
+            margin-bottom: 80px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .product-img {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-name {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #222;
+        }
+        
+        .product-price {
+            color: #ff4d8d;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .product-desc {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        /* بخش گالری */
+        .gallery {
+            margin-bottom: 80px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* فوتر */
+        footer {
+            background-color: #222;
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #ff4d8d;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #ff4d8d;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: #ff4d8d;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر و ناوبری -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <i class="fas fa-palette"></i>
+                    Kate<span>Spade</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#history">تاریخچه</a></li>
+                    <li><a href="#products">محصولات</a></li>
+                    <li><a href="#gallery">گالری</a></li>
+                    <!-- <li><a href="#contact">تماس با ما</a></li> -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- بخش هیرو -->
+    <section class="hero">
+        <div class="container">
+            <h1>برند <span class="brand-color">کیتبگ</span> (Kate Spade New York)</h1>
+            <p>برند آمریکایی لوکس که در سال 1993 تأسیس شد و با طراحی‌های شاد، رنگارنگ و کاربردی خود در دنیای مد و فشن شناخته می‌شود. کیف‌های دستی، لوازم جانبی و لباس‌های این برند ترکیبی از کلاسیک و مدرن را ارائه می‌دهند.</p>
+            <div style="margin-top: 30px;">
+                <span style="background-color: #ff4d8d; color: white; padding: 12px 25px; border-radius: 30px; font-weight: bold; display: inline-block;">شعار برند: زندگی رنگارنگ را بپوش</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش تاریخچه -->
+    <section id="history" class="history">
+        <div class="container">
+            <div class="section-title">
+                <h2>تاریخچه برند کیتبگ</h2>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">1993</div>
+                    <h3>تأسیس برند</h3>
+                    <p>کیت اسپید همراه همسرش، برند خود را با شش طرح کیف دستی ساده و کلاسیک راه‌اندازی کردند.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1996</div>
+                    <h3>اولین فروشگاه</h3>
+                    <p>اولین فروشگاه اختصاصی کیتبگ در نیویورک افتتاح شد و به سرعت مورد توجه قرار گرفت.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1999</div>
+                    <h3>توسعه محصولات</h3>
+                    <p>خط تولید به کفش، عینک، زیورآلات و لوازم خانه گسترش یافت و برند به یک سبک زندگی تبدیل شد.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2006</div>
+                    <h3>فروش به نایک</h3>
+                    <p>کیت و همسرش سهام خود را به شرکت نایک فروختند، اما کیت همچنان به عنوان مشاور خلاق باقی ماند.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2017</div>
+                    <h3>تولد دوباره</h3>
+                    <p>برند با نام جدید "Kate Spade New York" و تمرکز بر محصولات لوکس روزمره دوباره متولد شد.</p>
+            </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <h3>امروز</h3>
+                    <p>کیتبگ امروز یک برند جهانی با صدها فروشگاه در سراسر جهان و محبوب در میان زنان جوان حرفه‌ای است.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش محصولات -->
+    <section id="products" class="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>محصولات منتخب</h2>
+            </div>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="کیف دستی کیتبگ">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">کیف دستی سام (Sam)</h3>
+                        <div class="product-price">۲۹,۸۰۰,۰۰۰ تومان</div>
+                        <p class="product-desc">کیف دستی چرمی با طراحی کلاسیک و رنگ صورتی پررنگ، دارای فضای کافی برای وسایل روزمره</p>
+                        <div style="color: #666; font-size: 14px;">محبوب‌ترین محصول برند</div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80" alt="کفش کیتبگ">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">کفش پاشنه‌بلند کارا (Cara)</h3>
+                        <div class="product-price">۱۸,۵۰۰,۰۰۰ تومان</div>
+                        <p class="product-desc">کفش زنانه پاشنه‌بلند با طراحی ظریف و رنگ قرمز جذاب، مناسب مجالس و مهمانی‌ها</p>
+                        <div style="color: #666; font-size: 14px;">پرطرفدار در فصل بهار</div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1590649887895-9d3e837b2d8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="ساعت مچی کیتبگ">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">ساعت مچی لارن (Lauren)</h3>
+                        <div class="product-price">۳۵,۲۰۰,۰۰۰ تومان</div>
+                        <p class="product-desc">ساعت مچی زنانه با طرح مینیمال و بند چرمی، مناسب استفاده روزمره و موقعیت‌های کاری</p>
+                        <div style="color: #666; font-size: 14px;">طرح محدود 2023</div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="عینک آفتابی کیتبگ">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">عینک آفتابی کریستال (Crystal)</h3>
+                        <div class="product-price">۱۲,۷۰۰,۰۰۰ تومان</div>
+                        <p class="product-desc">عینک آفتابی با فریم بزرگ و طرح کلاسیک، دارای محافظ UV400 و لنزهای پلاریزه</p>
+                        <div style="color: #666; font-size: 14px;">پرطرفدار در فصل تابستان</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- بخش گالری -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2>گالری تصاویر</h2>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="طراحی داخلی فروشگاه کیتبگ">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1587566753197-8d646d2b9c80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="کیف‌های دستی کیتبگ">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1556306535-0f09a537f0a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="کفش‌های کیتبگ">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1594576722512-582d5577dc56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="اکسسوری کیتبگ">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- فوتر -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>درباره کیتبگ</h3>
+                    <p>برند کیتبگ با فلسفه "شادی را در زندگی روزمره بگنجان" ایجاد شد. طراحی‌های شاد و رنگارنگ این برند، لوکس بودن را با کاربردی بودن ترکیب می‌کند.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>لینک‌های مفید</h3>
+                    <ul class="footer-links">
+                        <li><a href="#history">تاریخچه برند</a></li>
+                        <li><a href="#products">محصولات پرفروش</a></li>
+                        <li><a href="#gallery">گالری تصاویر</a></li>
+                        <li><a href="#">فروشگاه‌های ما</a></li>
+                        <li><a href="#">سیاست بازگرداندن کالا</a></li>
+                    </ul>
+                </div>
+                
+                <!-- <div class="footer-section">
+                    <h3>تماس با ما</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-left: 8px;"></i> نیویورک، خیابان مدیسون 789</li>
+                        <li><i class="fas fa-phone" style="margin-left: 8px;"></i> 021-12345678</li>
+                        <li><i class="fas fa-envelope" style="margin-left: 8px;"></i> info@katespade.com</li>
+                        <li><i class="fas fa-clock" style="margin-left: 8px;"></i> ساعت کاری: 9 صبح تا 8 شب</li>
+                    </ul>
+                </div> -->
+            </div>
+            
+            <div class="copyright">
+                <p>تمامی حقوق برای برند Kate Spade New York محفوظ است. © 2023</p>
+                <p>این صفحه به صورت نمونه و برای نمایش اطلاعات درباره برند کیتبگ ایجاد شده است.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // اسکرول نرم برای لینک‌های داخلی
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // تغییر رنگ هدر هنگام اسکرول
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.08)';
+            }
+        });
+    </script>
+</body>
+</html>
