@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>زندگی‌نامه کیت اسپید | بنیان‌گذار برند کیتبگ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* استایل صفحه ورود رمز */
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff4d8d, #6a11cb);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .password-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .password-logo {
+            font-size: 50px;
+            color: #ff4d8d;
+            margin-bottom: 20px;
+        }
+        
+        .password-title {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .password-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .password-input:focus {
+            border-color: #ff4d8d;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 77, 141, 0.3);
+        }
+        
+        .password-btn {
+            background-color: #ff4d8d;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: bold;
+        }
+        
+        .password-btn:hover {
+            background-color: #ff3380;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 77, 141, 0.3);
+        }
+        
+        .password-hint {
+            margin-top: 20px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .password-error {
+            color: #ff3333;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .attempts-counter {
+            margin-top: 15px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        /* استایل‌های اصلی صفحه (مخفی شده) */
+        .main-content {
+            display: none;
+        }
+        
+        /* انیمیشن‌ها */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        .shake {
+            animation: shake 0.5s;
+        }
+        
+        /* بقیه استایل‌ها مانند قبل */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #ff4d8d;
+            --secondary-color: #ff9ec0;
+            --dark-color: #333;
+            --light-color: #f9f7f4;
+            --text-color: #444;
+            --white: #fff;
+            --shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* هدر و ناوبری */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--dark-color);
+            font-weight: bold;
+            font-size: 24px;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .logo i {
+            margin-left: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-right: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            bottom: -5px;
+            right: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        /* بخش هیرو */
+        .hero-section {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 77, 141, 0.2), rgba(255, 158, 192, 0.2));
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        
+        .hero-quote {
+            font-style: italic;
+            font-size: 20px;
+            border-right: 3px solid var(--primary-color);
+            padding-right: 15px;
+            margin-top: 30px;
+            animation: fadeIn 1s ease 0.6s both;
+        }
+        
+        /* بخش بیوگرافی */
+        .bio-section {
+            margin-bottom: 100px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark-color);
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-color);
+            font-size: 18px;
+        }
+        
+        .title-decoration {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .title-decoration:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 10px;
+            background-color: rgba(255, 77, 141, 0.2);
+            bottom: 5px;
+            right: 0;
+            z-index: -1;
+        }
+        
+        .bio-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            margin-top: 40px;
+        }
+        
+        .bio-text {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bio-text:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+        
+        .bio-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 500px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .bio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .bio-image:hover .bio-img {
+            transform: scale(1.05);
+        }
+        
+        .bio-image:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 77, 141, 0.1), rgba(255, 158, 192, 0.1));
+            z-index: 1;
+        }
+        
+        .bio-highlight {
+            background-color: rgba(255, 77, 141, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-right: 4px solid var(--primary-color);
+        }
+        
+        .bio-highlight h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* بخش نکات کلیدی */
+        .keypoints-section {
+            margin-bottom: 100px;
+            position: relative;
+        }
+        
+        .keypoints-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--secondary-color) 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .keypoints-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .keypoint-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid var(--primary-color);
+        }
+        
+        .keypoint-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .keypoint-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(255, 77, 141, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 30px;
+            color: var(--primary-color);
+        }
+        
+        .keypoint-card h3 {
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        /* بخش جدول زمانی */
+        .timeline-section {
+            margin-bottom: 100px;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 50px auto 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            right: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            right: 50%;
+        }
+        
+        .timeline-content {
+            padding: 25px;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .timeline-content:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--white);
+            top: 20px;
+            transform: rotate(45deg);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content:after {
+            left: -10px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content:after {
+            right: -10px;
+        }
+        
+        .timeline-year {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 30px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border: 4px solid var(--white);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-marker {
+            left: -10px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-marker {
+            right: -10px;
+        }
+        
+        /* بخش نقل‌قول‌ها */
+        .quotes-section {
+            margin-bottom: 100px;
+            background: linear-gradient(to right, rgba(255, 77, 141, 0.05), rgba(255, 158, 192, 0.05));
+            padding: 80px 0;
+            border-radius: 20px;
+        }
+        
+        .quote-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .quote-item {
+            padding: 40px;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .quote-item:before {
+            content: "❝";
+            position: absolute;
+            top: -20px;
+            right: 30px;
+            font-size: 80px;
+            color: var(--primary-color);
+            opacity: 0.3;
+        }
+        
+        .quote-text {
+            font-size: 22px;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            line-height: 1.8;
+        }
+        
+        .quote-author {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        /* بخش میراث */
+        .legacy-section {
+            margin-bottom: 100px;
+        }
+        
+        .legacy-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            margin-top: 50px;
+        }
+        
+        .legacy-stats {
+            flex: 1;
+            min-width: 300px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .stat-box {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 42px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .stat-text {
+            color: var(--text-color);
+            font-size: 16px;
+        }
+        
+        .legacy-text {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* فوتر */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            padding: 70px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: #444;
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 15px;
+        }
+        
+        /* انیمیشن‌ها */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ریسپانسیو */
+        @media (max-width: 992px) {
+            .timeline:before {
+                right: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-right: 70px;
+                padding-left: 30px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                right: 0;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-marker,
+            .timeline-item:nth-child(even) .timeline-marker {
+                right: auto;
+                left: -10px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content:after,
+            .timeline-item:nth-child(even) .timeline-content:after {
+                right: auto;
+                left: -10px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 20px;
+            }
+            
+            .section-title h2 {
+                font-size: 30px;
+            }
+            
+            .keypoints-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .legacy-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .password-container {
+                padding: 30px;
+            }
+            
+            .password-title {
+                font-size: 28px;
+            }
+        }
+        
+        /* استایل برای زمانی که عکس بارگذاری نمی‌شود */
+        .img-placeholder {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .img-placeholder i {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- صفحه ورود رمز -->
+    <div id="password-overlay">
+        <div class="password-container">
+            <div class="password-logo">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h1 class="password-title">ورود به زندگی‌نامه کیت اسپید</h1>
+            <p class="password-subtitle">این صفحه با رمز محافظت می‌شود. لطفاً رمز عبور را وارد کنید.</p>
+            
+            <input type="password" id="password-input" class="password-input" placeholder="رمز عبور را وارد کنید">
+            <button id="password-btn" class="password-btn">ورود به صفحه</button>
+            
+            <div id="password-error" class="password-error">
+                <i class="fas fa-exclamation-circle"></i> رمز عبور اشتباه است!
+            </div>
+            
+            <div class="attempts-counter">
+                تلاش‌های باقی‌مانده: <span id="attempts-left">3</span>
+            </div>
+            
+            <div class="password-hint">
+                <i class="fas fa-lightbulb"></i> نکته: رمز را از چینش پازل ها به دست آورید (4 رقم)
+            </div>
+        </div>
+    </div>
+
+    <!-- محتوای اصلی صفحه (در ابتدا مخفی) -->
+    <div class="main-content">
+        <!-- هدر و ناوبری -->
+        <header>
+            <div class="container">
+                <nav>
+                    <a href="#" class="logo">
+                        <i class="fas fa-star"></i>
+                        Kate<span>Spade</span> Life
+                    </a>
+                    <ul class="nav-links">
+                        <li><a href="#bio">بیوگرافی</a></li>
+                        <li><a href="#keypoints">نکات کلیدی</a></li>
+                        <li><a href="#timeline">جدول زمانی</a></li>
+                        <li><a href="#quotes">نقل‌قول‌ها</a></li>
+                        <li><a href="#legacy">میراث</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- بخش هیرو -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">کیت اسپید</h1>
+                <p class="hero-subtitle">طراح مد، کارآفرین و بنیان‌گذار برند جهانی کیتبگ</p>
+                <p class="hero-quote">"سبک باید چیزی باشد که شما را شاد کند، نه چیزی که شما را محدود کند."</p>
+            </div>
+        </section>
+
+        <!-- بخش بیوگرافی -->
+        <section id="bio" class="bio-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2><span class="title-decoration">زندگی‌نامه کیت اسپید</span></h2>
+                    <p>آشنایی با زندگی الهام‌بخش زنی که دنیای مد را با شادی و رنگ‌آمیزی دگرگون کرد</p>
+                </div>
+                
+                <div class="bio-content">
+                    <div class="bio-text">
+                        <h2>کیت برازنر اسپید</h2>
+                        <p>کیت اسپید (زاده ۲۴ دسامبر ۱۹۶۲ - درگذشته ۵ ژوئن ۲۰۱۸) طراح مد آمریکایی و بنیان‌گذار برند معروف کیت اسپید نیویورک بود. او با طراحی‌های شاد، رنگارنگ و کاربردی خود در دنیای مد و فشن انقلابی ایجاد کرد.</p>
+                        
+                        <p>کیت در کانزاس سیتی میزوری به دنیا آمد و در دانشگاه ایالتی آریزونا در رشته روزنامه‌نگاری تحصیل کرد. پس از فارغ‌التحصیلی، به نیویورک نقل مکان کرد و در مجله Mademoiselle به عنوان دستیار سردبیر شروع به کار کرد. تجربه او در صنعت مد و انتشارات، زمینه‌ساز تأسیس برند شخصی‌اش شد.</p>
+                        
+                        <div class="bio-highlight">
+                            <h3><i class="fas fa-lightbulb"></i> ایده آغازین</h3>
+                            <p>ایده اصلی تأسیس برند از زمانی شکل گرفت که کیت متوجه شد بازار فاقد کیف‌های دستی شیک، کاربردی و در عین حال مقرون‌به‌صرفه برای زنان جوان حرفه‌ای است. او با همسرش اندی اسپید، در سال ۱۹۹۳ با سرمایه اولیه ۳۵,۰۰۰ دلار اولین مجموعه کیف خود را طراحی و تولید کرد.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bio-image">
+                        <img src="https://images.pexels.com/photos/3768005/pexels-photo-3768005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="کیت اسپید" class="bio-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش نکات کلیدی زندگی -->
+        <section id="keypoints" class="keypoints-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2><span class="title-decoration">نکات کلیدی زندگی</span></h2>
+                    <p>مهم‌ترین نقاط عطف و ویژگی‌های شخصیتی کیت اسپید</p>
+                </div>
+                
+                <div class="keypoints-grid">
+                    <div class="keypoint-card">
+                        <div class="keypoint-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>تحصیلات و شروع کار</h3>
+                        <p>کیت در رشته روزنامه‌نگاری تحصیل کرد و کار خود را در مجله Mademoiselle آغاز نمود. تجربه او در صنعت انتشارات به درک عمیق‌تری از سلیقه زنان جوان منجر شد.</p>
+                    </div>
+                    
+                    <div class="keypoint-card">
+                        <div class="keypoint-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>ازدواج و همکاری</h3>
+                        <p>کیت در سال ۱۹۹۴ با اندی اسپید ازدواج کرد. اندی نه تنها همسرش بود، بلکه شریک تجاری وفاداری نیز محسوب می‌شد که در مدیریت کسب‌وکار به او کمک می‌کرد.</p>
+                    </div>
+                    
+                    <div class="keypoint-card">
+                        <div class="keypoint-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3>کارآفرینی</h3>
+                        <p>با تأسیس برند در سال ۱۹۹۳، کیت اسپید به یکی از موفق‌ترین کارآفرینان زن در صنعت مد تبدیل شد. برند او به سرعت رشد کرد و در سال ۲۰۰۶ توسط شرکت نایک خریداری شد.</p>
+                    </div>
+                    
+                    <div class="keypoint-card">
+                        <div class="keypoint-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>فلسفه طراحی</h3>
+                        <p>طراحی‌های کیت اسپید بر شادی، رنگ‌آمیزی و کاربردی بودن تأکید داشت. او معتقد بود که مد باید زندگی روزمره را زیباتر و شادتر کند.</p>
+                    </div>
+                    
+                    <div class="keypoint-card">
+                        <div class="keypoint-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>جوایز و افتخارات</h3>
+                        <p>کیت اسپید برنده جوایز متعددی از جمله جایزه طراح سال از شورای طراحان مد آمریکا در سال ۱۹۹۶ و جایزه بهترین طراح جدید از مجله ووگ شد.</p>
+                    </div>
+                    
+                    <div class="keypoint-card">
+                        <div class="keypoint-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>میراث ماندگار</h3>
+                        <p>کیت اسپید نه تنها یک برند موفق ایجاد کرد، بلکه فلسفه‌ای از زندگی شاد و رنگارنگ را ترویج داد که تا امروز ادامه دارد و الهام‌بخش زنان بسیاری در سراسر جهان است.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش جدول زمانی -->
+        <section id="timeline" class="timeline-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2><span class="title-decoration">جدول زمانی زندگی</span></h2>
+                    <p>مهم‌ترین رویدادهای زندگی کیت اسپید از تولد تا امروز</p>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">۱۹۶۲</span>
+                            <h3>تولد</h3>
+                            <p>کیت برازنر در ۲۴ دسامبر ۱۹۶۲ در کانزاس سیتی، میزوری به دنیا آمد.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">۱۹۸۵</span>
+                            <h3>فارغ‌التحصیلی</h3>
+                            <p>از دانشگاه ایالتی آریزونا در رشته روزنامه‌نگاری فارغ‌التحصیل شد و به نیویورک نقل مکان کرد.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">۱۹۹۳</span>
+                            <h3>تأسیس برند</h3>
+                            <p>به همراه همسرش اندی اسپید، برند کیت اسپید را با شش طرح کیف دستی راه‌اندازی کرد.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">۱۹۹۶</span>
+                            <h3>افتتاح اولین فروشگاه</h3>
+                            <p>اولین فروشگاه اختصاصی برند در نیویورک افتتاح شد و کیت اسپید جایزه طراح سال را دریافت کرد.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">۲۰۰۶</span>
+                            <h3>فروش برند</h3>
+                            <p>کیت و اندی سهام برند خود را به شرکت نایک فروختند، اما کیت همچنان به عنوان مشاور خلاق باقی ماند.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">۲۰۱۸</span>
+                            <h3>درگذشت</h3>
+                            <p>کیت اسپید در ۵ ژوئن ۲۰۱۸ در سن ۵۵ سالگی درگذشت. مرگ او شوک بزرگی به دنیای مد وارد کرد.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">امروز</span>
+                            <h3>میراث زنده</h3>
+                            <p>برند کیت اسپید نیویورک همچنان به رشد خود ادامه می‌دهد و فلسفه زندگی شاد و رنگارنگ او را زنده نگه می‌دارد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش نقل‌قول‌ها -->
+        <section id="quotes" class="quotes-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2><span class="title-decoration">نقل‌قول‌های ماندگار</span></h2>
+                    <p>جملات الهام‌بخش کیت اسپید که فلسفه زندگی و کاری او را نشان می‌دهد</p>
+                </div>
+                
+                <div class="quote-slider">
+                    <div class="quote-item">
+                        <p class="quote-text">"سبک شخصی باید بازتابی از شخصیت شما باشد. چیزی که شما را شاد می‌کند و به شما اعتماد به نفس می‌دهد."</p>
+                        <p class="quote-author">— کیت اسپید</p>
+                    </div>
+                </div>
+                
+                <div class="quote-slider" style="margin-top: 40px;">
+                    <div class="quote-item">
+                        <p class="quote-text">"من همیشه به دنبال شکاف‌های بازار بودم. جایی که می‌توانستم چیزی ارائه دهم که وجود نداشت اما زنان به آن نیاز داشتند."</p>
+                        <p class="quote-author">— کیت اسپید</p>
+                    </div>
+                </div>
+                
+                <div class="quote-slider" style="margin-top: 40px;">
+                    <div class="quote-item">
+                        <p class="quote-text">"شادی را در چیزهای کوچک پیدا کنید. یک کیف دستی زیبا، یک لباس رنگارنگ، یا حتی یک فنجان قهوه در یک روز سخت می‌تواند همه چیز را تغییر دهد."</p>
+                        <p class="quote-author">— کیت اسپید</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش میراث -->
+        <section id="legacy" class="legacy-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2><span class="title-decoration">میراث کیت اسپید</span></h2>
+                    <p>تأثیر ماندگار کیت اسپید بر صنعت مد و زندگی زنان</p>
+                </div>
+                
+                <div class="legacy-content">
+                    <div class="legacy-stats">
+                        <div class="stat-box">
+                            <div class="stat-number">۱۹۹۳</div>
+                            <div class="stat-text">سال تأسیس برند</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-number">۱۴۰+</div>
+                            <div class="stat-text">فروشگاه در سراسر جهان</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-number">۵۰۰۰+</div>
+                            <div class="stat-text">طراحی‌های مختلف</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-number">۳۰+</div>
+                            <div class="stat-text">کشور میزبان برند</div>
+                        </div>
+                    </div>
+                    
+                    <div class="legacy-text">
+                        <h3>تأثیر فرهنگی و اجتماعی</h3>
+                        <p>کیت اسپید نه تنها یک برند مد ایجاد کرد، بلکه جنبشی فرهنگی به راه انداخت. او ثابت کرد که مد می‌تواند هم شاد باشد و هم کاربردی، هم زیبا باشد و هم در دسترس.</p>
+                        <p>فلسفه زندگی او مبتنی بر شادی، رنگ‌آمیزی و سادگی بود. او به زنان آموخت که سبک شخصی خود را داشته باشند و از طریق مد، شخصیت خود را بیان کنند. میراث کیت اسپید امروز در صدها فروشگاه در سراسر جهان و در قلب میلیون‌ها زنی که از محصولاتش استفاده می‌کنند، زنده است.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- فوتر -->
+        <footer id="contact">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>درباره این صفحه</h3>
+                        <p>این صفحه به زندگی و دستاوردهای کیت اسپید، بنیان‌گذار برند کیتبگ اختصاص دارد. هدف ما آشنایی با زندگی الهام‌بخش این طراح برجسته است.</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h3>لینک‌های سریع</h3>
+                        <ul class="footer-links">
+                            <li><a href="#bio"><i class="fas fa-user"></i> بیوگرافی</a></li>
+                            <li><a href="#keypoints"><i class="fas fa-star"></i> نکات کلیدی</a></li>
+                            <li><a href="#timeline"><i class="fas fa-history"></i> جدول زمانی</a></li>
+                            <li><a href="#quotes"><i class="fas fa-quote-right"></i> نقل‌قول‌ها</a></li>
+                            <li><a href="#legacy"><i class="fas fa-award"></i> میراث</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h3>تماس با ما</h3>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> نیویورک، خیابان مدیسون</a></li>
+                            <li><a href="#"><i class="fas fa-phone"></i> 021-12345678</a></li>
+                            <li><a href="#"><i class="fas fa-envelope"></i> info@katespade-life.com</a></li>
+                            <li><a href="#"><i class="fas fa-globe"></i> www.katespade-life.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    <p>تمامی حقوق برای زندگی‌نامه کیت اسپید محفوظ است. © ۲۰۲۳</p>
+                    <p>این صفحه به صورت نمونه و برای نمایش اطلاعات درباره زندگی کیت اسپید ایجاد شده است.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // رمز عبور صحیح
+        const CORRECT_PASSWORD = "celebrity suicides";
+        let attemptsLeft = 3;
+        
+        // عناصر DOM
+        const passwordOverlay = document.getElementById('password-overlay');
+        const passwordInput = document.getElementById('password-input');
+        const passwordBtn = document.getElementById('password-btn');
+        const passwordError = document.getElementById('password-error');
+        const attemptsLeftSpan = document.getElementById('attempts-left');
+        const mainContent = document.querySelector('.main-content');
+        
+        // تابع برای بررسی رمز عبور
+        function checkPassword() {
+            const enteredPassword = passwordInput.value.trim();
+            
+            if (enteredPassword === CORRECT_PASSWORD) {
+                // رمز صحیح است
+                passwordOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // اسکرول به بالای صفحه
+                window.scrollTo(0, 0);
+                
+                // پخش صدای تأیید (اختیاری)
+                playSuccessSound();
+                
+                // ذخیره در localStorage برای بازدیدهای بعدی
+                // localStorage.setItem('katespade_access_granted', 'true');
+            } else {
+                // رمز اشتباه است
+                attemptsLeft--;
+                attemptsLeftSpan.textContent = attemptsLeft;
+                
+                // نمایش خطا
+                passwordError.style.display = 'block';
+                passwordInput.classList.add('shake');
+                
+                // پخش صدای خطا (اختیاری)
+                playErrorSound();
+                
+                // پاک کردن فیلد ورودی
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                // حذف کلاس shake بعد از اتمام انیمیشن
+                setTimeout(() => {
+                    passwordInput.classList.remove('shake');
+                }, 500);
+                
+                // بررسی تعداد تلاش‌های باقی‌مانده
+                if (attemptsLeft <= 0) {
+                    passwordBtn.disabled = true;
+                    passwordInput.disabled = true;
+                    passwordError.innerHTML = '<i class="fas fa-ban"></i> دسترسی شما مسدود شد. لطفاً صفحه را رفرش کنید.';
+                }
+            }
+        }
+        
+        // تابع پخش صدای موفقیت (اختیاری)
+        function playSuccessSound() {
+            // اگر بخواهیم صدایی پخش شود
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                console.log("Audio not supported");
+            }
+        }
+        
+        // تابع پخش صدای خطا (اختیاری)
+        function playErrorSound() {
+            // اگر بخواهیم صدایی پخش شود
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 300;
+                oscillator.type = 'sawtooth';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (e) {
+                console.log("Audio not supported");
+            }
+        }
+        
+        // بررسی localStorage برای دسترسی قبلی
+        window.addEventListener('load', function() {
+            // const accessGranted = localStorage.getItem('katespade_access_granted');
+            
+            // if (accessGranted === 'true') {
+            //     passwordOverlay.style.display = 'none';
+            //     mainContent.style.display = 'block';
+            // }
+            
+            // اسکرول نرم برای لینک‌های داخلی
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+        
+        // رویدادهای کلیک و کیبورد
+        passwordBtn.addEventListener('click', checkPassword);
+        
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+        
+        // تغییر رنگ هدر هنگام اسکرول
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = 'var(--shadow)';
+            }
+        });
+        
+        // بررسی تصاویر در صورت عدم بارگذاری
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (!img.complete || img.naturalHeight === 0) {
+                    const event = new Event('error');
+                    img.dispatchEvent(event);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
