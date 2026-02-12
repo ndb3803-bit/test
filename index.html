@@ -30,27 +30,59 @@
         border-radius: 16px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         text-align: center;
+        position: relative;
+    }
+
+    .warning-badge {
+        background-color: #fff3e0;
+        color: #e65100;
+        padding: 10px 15px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        display: inline-block;
+        border: 1px solid #ffe0b2;
     }
 
     h1 {
         font-size: 28px;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
         color: #222;
     }
 
-    select {
+    .hint-text {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 25px;
+        background-color: #f9f9f9;
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    input {
         width: 100%;
         padding: 14px 16px;
         font-size: 18px;
         border-radius: 10px;
         border: 1px solid #ddd;
         margin-bottom: 20px;
-        cursor: pointer;
+        cursor: text;
+        transition: all 0.3s;
     }
 
-    select:focus {
+    input:focus {
         outline: none;
         border-color: #ff4d8d;
+        box-shadow: 0 0 0 3px rgba(255,77,141,0.1);
+    }
+
+    input:disabled {
+        background-color: #f5f5f5;
+        color: #888;
+        cursor: not-allowed;
+        border-color: #ddd;
+        opacity: 0.7;
     }
 
     button {
@@ -66,9 +98,15 @@
         transition: background-color 0.3s, transform 0.2s;
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
         background-color: #e63f7a;
         transform: translateY(-2px);
+    }
+
+    button:disabled {
+        background-color: #ffb3c6;
+        cursor: not-allowed;
+        transform: none;
     }
 
     #message {
@@ -76,6 +114,8 @@
         font-size: 20px;
         font-weight: 600;
         min-height: 28px;
+        padding: 10px;
+        border-radius: 10px;
     }
 
     #videoContainer {
@@ -91,6 +131,33 @@
         box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     }
 
+    .lock-message {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+        background-color: #f0f0f0;
+        padding: 8px;
+        border-radius: 8px;
+        font-style: italic;
+    }
+
+    .reset-btn {
+        margin-top: 20px;
+        background-color: transparent;
+        color: #999;
+        font-size: 12px;
+        padding: 8px;
+        border: 1px dashed #ccc;
+        width: auto;
+        display: inline-block;
+    }
+    
+    .reset-btn:hover {
+        background-color: #f0f0f0;
+        color: #666;
+        transform: none;
+    }
+
     @media (max-width: 480px) {
         h1 {
             font-size: 24px;
@@ -99,6 +166,10 @@
         iframe {
             height: 220px;
         }
+        
+        .quiz-card {
+            padding: 30px 20px;
+        }
     }
 </style>
 </head>
@@ -106,17 +177,19 @@
 <body>
 
 <div class="quiz-card">
-    <h1>نام همسر کیت چیست؟</h1>
+    <div class="warning-badge">
+        ⚠️ فقط یک بار فرصت پاسخگویی دارید!
+    </div>
 
-    <select id="answer">
-        <option value="">— انتخاب کنید —</option>
-        <option value="wrong">آنتونی بوردین</option>
-        <option value="wrong">دیوید اسپید</option>
-        <option value="wrong">ارل فرانک بروزناهان</option>
-        <option value="correct">اندرو اسپید</option>
-    </select>
+    <h1>سرگرمی مورد علاقه همسر کیت چیست؟</h1>
+    
+    <div class="hint-text">
+        💡 پاسخ را با دقت وارد کنید • پس از تأیید، حتی با رفرش صفحه هم قابل تغییر نیست
+    </div>
 
-    <button onclick="checkAnswer()">تأیید پاسخ</button>
+    <input type="text" id="answer" placeholder="پاسخ خود را بنویسید..." autocomplete="off">
+
+    <button onclick="checkAnswer()" id="submitBtn">تأیید پاسخ</button>
 
     <div id="message"></div>
 
@@ -127,31 +200,195 @@
             allowfullscreen>
         </iframe>
     </div>
+    
+    <div id="lockStatus" class="lock-message"></div>
+    
+    <!-- دکمه ریست مخفی - فقط برای مدیریت -->
+    <button onclick="resetQuiz()" class="reset-btn" id="resetBtn">🔄 ریست آزمون</button>
 </div>
 
 <script>
+// کلید ذخیره سازی در localStorage
+const STORAGE_KEY = 'quiz_answered';
+const ANSWER_KEY = 'user_answer';
+const RESULT_KEY = 'quiz_result';
+
+// بررسی وضعیت قبلی هنگام لود صفحه
+window.onload = function() {
+    checkSavedState();
+    document.getElementById("lockStatus").innerHTML = "📝 آماده دریافت پاسخ شما • فقط یک فرصت";
+}
+
+// بررسی وضعیت ذخیره شده
+function checkSavedState() {
+    const isAnswered = localStorage.getItem(STORAGE_KEY) === 'true';
+    const savedAnswer = localStorage.getItem(ANSWER_KEY);
+    const savedResult = localStorage.getItem(RESULT_KEY);
+    
+    if (isAnswered && savedAnswer !== null) {
+        // قفل کردن صفحه
+        lockInterface(true);
+        
+        // نمایش پاسخ قبلی
+        const input = document.getElementById("answer");
+        input.value = savedAnswer;
+        input.placeholder = "پاسخ شما ثبت شد";
+        
+        // نمایش نتیجه
+        const msg = document.getElementById("message");
+        const video = document.getElementById("videoContainer");
+        const lockStatus = document.getElementById("lockStatus");
+        
+        if (savedResult === 'correct') {
+            msg.style.color = "#2e7d32";
+            msg.innerText = "✅ پاسخ درست! 🎉";
+            video.style.display = "block";
+            lockStatus.innerHTML = "🔒 پاسخ قبلاً ثبت شده است. نتیجه: درست ✅";
+        } else {
+            msg.style.color = "#c62828";
+            msg.innerText = "❌ پاسخ نادرست";
+            video.style.display = "none";
+            lockStatus.innerHTML = "🔒 پاسخ قبلاً ثبت شده است. نتیجه: نادرست ❌";
+        }
+    }
+}
+
+// قفل کردن رابط کاربری
+function lockInterface(isLocked) {
+    const input = document.getElementById("answer");
+    const submitBtn = document.getElementById("submitBtn");
+    
+    if (isLocked) {
+        input.disabled = true;
+        submitBtn.disabled = true;
+        input.style.opacity = "0.7";
+    } else {
+        input.disabled = false;
+        submitBtn.disabled = false;
+        input.style.opacity = "1";
+    }
+}
+
+// ذخیره وضعیت در localStorage
+function saveState(answered, answer, result) {
+    localStorage.setItem(STORAGE_KEY, answered);
+    localStorage.setItem(ANSWER_KEY, answer);
+    localStorage.setItem(RESULT_KEY, result);
+}
+
 function checkAnswer() {
-    const select = document.getElementById("answer");
+    const input = document.getElementById("answer");
     const msg = document.getElementById("message");
     const video = document.getElementById("videoContainer");
+    const lockStatus = document.getElementById("lockStatus");
 
-    if (select.value === "") {
+    // بررسی قبلاً پاسخ داده شده
+    if (localStorage.getItem(STORAGE_KEY) === 'true') {
         msg.style.color = "#ff9800";
-        msg.innerText = "لطفاً یک گزینه انتخاب کنید";
+        msg.innerText = "⚠️ شما قبلاً پاسخ داده‌اید!";
+        return;
+    }
+
+    const userAnswer = input.value.trim();
+
+    // بررسی خالی بودن پاسخ
+    if (userAnswer === "") {
+        msg.style.color = "#ff9800";
+        msg.innerText = "⚠️ لطفاً پاسخ خود را وارد کنید";
         video.style.display = "none";
         return;
     }
 
-    if (select.value === "correct") {
+    // بررسی پاسخ
+    let result;
+    if (userAnswer === "عکاسی") {
         msg.style.color = "#2e7d32";
-        msg.innerText = "پاسخ درست! 🎉";
+        msg.innerText = "✅ پاسخ درست! 🎉 آفرین!";
         video.style.display = "block";
+        lockStatus.innerHTML = "🔒 پاسخ شما ثبت شد. نتیجه: درست ✅";
+        result = 'correct';
+        
+        // اسکرول به سمت ویدیو
+        setTimeout(() => {
+            video.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
     } else {
         msg.style.color = "#c62828";
-        msg.innerText = "پاسخ نادرست ❌";
+        msg.innerText = "❌ پاسخ نادرست! متأسفانه فرصت دیگری ندارید.";
         video.style.display = "none";
+        lockStatus.innerHTML = "🔒 پاسخ شما ثبت شد. نتیجه: نادرست ❌";
+        result = 'incorrect';
+    }
+    
+    // ذخیره در localStorage
+    saveState(true, userAnswer, result);
+    
+    // قفل کردن صفحه
+    lockInterface(true);
+    input.placeholder = "پاسخ شما ثبت شد";
+}
+
+// اضافه کردن قابلیت ارسال با اینتر
+document.getElementById("answer").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        if (!document.getElementById("submitBtn").disabled && localStorage.getItem(STORAGE_KEY) !== 'true') {
+            checkAnswer();
+        }
+    }
+});
+
+// هشدار هنگام رفرش صفحه - غیرضروری شد چون localStorage حفظ میشه
+// ولی برای اطلاع کاربر می‌ذاریمش
+window.addEventListener("beforeunload", function (e) {
+    if (localStorage.getItem(STORAGE_KEY) === 'true') {
+        // فقط یه پیام ملایم
+        e.preventDefault();
+        e.returnValue = "شما قبلاً پاسخ خود را ثبت کرده‌اید.";
+        return e.returnValue;
+    }
+});
+
+// تابع ریست - فقط برای مدیریت و تست
+// با کلیک ۵ بار روی متن هشدار فعال میشه
+function resetQuiz() {
+    const userConfirmed = confirm("آیا مطمئن هستید؟ تمام پاسخ‌های ذخیره شده پاک می‌شوند.");
+    if (userConfirmed) {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(ANSWER_KEY);
+        localStorage.removeItem(RESULT_KEY);
+        
+        // ریست فرم
+        const input = document.getElementById("answer");
+        const msg = document.getElementById("message");
+        const video = document.getElementById("videoContainer");
+        const lockStatus = document.getElementById("lockStatus");
+        
+        input.value = "";
+        input.disabled = false;
+        input.style.opacity = "1";
+        input.placeholder = "پاسخ خود را بنویسید...";
+        
+        document.getElementById("submitBtn").disabled = false;
+        
+        msg.innerText = "";
+        video.style.display = "none";
+        lockStatus.innerHTML = "📝 آزمون ریست شد • فقط یک فرصت";
     }
 }
+
+// ریست با کلیک چندباره روی هشدار (مخفی)
+let clickCount = 0;
+document.querySelector('.warning-badge').addEventListener('click', function() {
+    clickCount++;
+    if (clickCount >= 3) {
+        if (confirm('آیا می‌خواهید آزمون را ریست کنید؟')) {
+            resetQuiz();
+        }
+        clickCount = 0;
+    }
+});
+
 </script>
 
 </body>
