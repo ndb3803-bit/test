@@ -20,6 +20,7 @@
         align-items: center;
         justify-content: center;
         margin: 0;
+        padding: 20px;
     }
 
     .quiz-card {
@@ -31,18 +32,6 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         text-align: center;
         position: relative;
-    }
-
-    .warning-badge {
-        background-color: #fff3e0;
-        color: #e65100;
-        padding: 10px 15px;
-        border-radius: 50px;
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 25px;
-        display: inline-block;
-        border: 1px solid #ffe0b2;
     }
 
     h1 {
@@ -141,23 +130,6 @@
         font-style: italic;
     }
 
-    .reset-btn {
-        margin-top: 20px;
-        background-color: transparent;
-        color: #999;
-        font-size: 12px;
-        padding: 8px;
-        border: 1px dashed #ccc;
-        width: auto;
-        display: inline-block;
-    }
-    
-    .reset-btn:hover {
-        background-color: #f0f0f0;
-        color: #666;
-        transform: none;
-    }
-
     @media (max-width: 480px) {
         h1 {
             font-size: 24px;
@@ -177,14 +149,10 @@
 <body>
 
 <div class="quiz-card">
-    <div class="warning-badge">
-        ⚠️ فقط یک بار فرصت پاسخگویی دارید!
-    </div>
-
     <h1>سرگرمی مورد علاقه همسر کیت چیست؟</h1>
     
     <div class="hint-text">
-        💡 پاسخ را با دقت وارد کنید • پس از تأیید، حتی با رفرش صفحه هم قابل تغییر نیست
+        💡 پاسخ را با دقت وارد کنید • پس از تأیید، امکان تغییر ندارید
     </div>
 
     <input type="text" id="answer" placeholder="پاسخ خود را بنویسید..." autocomplete="off">
@@ -202,9 +170,6 @@
     </div>
     
     <div id="lockStatus" class="lock-message"></div>
-    
-    <!-- دکمه ریست مخفی - فقط برای مدیریت -->
-    <button onclick="resetQuiz()" class="reset-btn" id="resetBtn">🔄 ریست آزمون</button>
 </div>
 
 <script>
@@ -216,7 +181,7 @@ const RESULT_KEY = 'quiz_result';
 // بررسی وضعیت قبلی هنگام لود صفحه
 window.onload = function() {
     checkSavedState();
-    document.getElementById("lockStatus").innerHTML = "📝 آماده دریافت پاسخ شما • فقط یک فرصت";
+    document.getElementById("lockStatus").innerHTML = "📝 هر نفر فقط یک بار می‌تواند پاسخ دهد";
 }
 
 // بررسی وضعیت ذخیره شده
@@ -232,7 +197,7 @@ function checkSavedState() {
         // نمایش پاسخ قبلی
         const input = document.getElementById("answer");
         input.value = savedAnswer;
-        input.placeholder = "پاسخ شما ثبت شد";
+        input.placeholder = "شما قبلاً پاسخ داده‌اید";
         
         // نمایش نتیجه
         const msg = document.getElementById("message");
@@ -243,12 +208,12 @@ function checkSavedState() {
             msg.style.color = "#2e7d32";
             msg.innerText = "✅ پاسخ درست! 🎉";
             video.style.display = "block";
-            lockStatus.innerHTML = "🔒 پاسخ قبلاً ثبت شده است. نتیجه: درست ✅";
+            lockStatus.innerHTML = "🔒 شما قبلاً پاسخ داده‌اید • نتیجه: درست ✅";
         } else {
             msg.style.color = "#c62828";
             msg.innerText = "❌ پاسخ نادرست";
             video.style.display = "none";
-            lockStatus.innerHTML = "🔒 پاسخ قبلاً ثبت شده است. نتیجه: نادرست ❌";
+            lockStatus.innerHTML = "🔒 شما قبلاً پاسخ داده‌اید • نتیجه: نادرست ❌";
         }
     }
 }
@@ -312,20 +277,28 @@ function checkAnswer() {
         setTimeout(() => {
             video.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
+        
+        // قفل کردن صفحه
+        lockInterface(true);
+        input.placeholder = "شما قبلاً پاسخ داده‌اید";
+        
+        // ذخیره در localStorage
+        saveState(true, userAnswer, result);
+        
     } else {
         msg.style.color = "#c62828";
-        msg.innerText = "❌ پاسخ نادرست! متأسفانه فرصت دیگری ندارید.";
+        msg.innerText = "❌ پاسخ نادرست!";
         video.style.display = "none";
         lockStatus.innerHTML = "🔒 پاسخ شما ثبت شد. نتیجه: نادرست ❌";
         result = 'incorrect';
+        
+        // ذخیره در localStorage
+        saveState(true, userAnswer, result);
+        
+        // قفل کردن صفحه
+        lockInterface(true);
+        input.placeholder = "شما قبلاً پاسخ داده‌اید";
     }
-    
-    // ذخیره در localStorage
-    saveState(true, userAnswer, result);
-    
-    // قفل کردن صفحه
-    lockInterface(true);
-    input.placeholder = "پاسخ شما ثبت شد";
 }
 
 // اضافه کردن قابلیت ارسال با اینتر
@@ -338,54 +311,12 @@ document.getElementById("answer").addEventListener("keypress", function(event) {
     }
 });
 
-// هشدار هنگام رفرش صفحه - غیرضروری شد چون localStorage حفظ میشه
-// ولی برای اطلاع کاربر می‌ذاریمش
+// هشدار هنگام رفرش صفحه
 window.addEventListener("beforeunload", function (e) {
     if (localStorage.getItem(STORAGE_KEY) === 'true') {
-        // فقط یه پیام ملایم
         e.preventDefault();
         e.returnValue = "شما قبلاً پاسخ خود را ثبت کرده‌اید.";
         return e.returnValue;
-    }
-});
-
-// تابع ریست - فقط برای مدیریت و تست
-// با کلیک ۵ بار روی متن هشدار فعال میشه
-function resetQuiz() {
-    const userConfirmed = confirm("آیا مطمئن هستید؟ تمام پاسخ‌های ذخیره شده پاک می‌شوند.");
-    if (userConfirmed) {
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem(ANSWER_KEY);
-        localStorage.removeItem(RESULT_KEY);
-        
-        // ریست فرم
-        const input = document.getElementById("answer");
-        const msg = document.getElementById("message");
-        const video = document.getElementById("videoContainer");
-        const lockStatus = document.getElementById("lockStatus");
-        
-        input.value = "";
-        input.disabled = false;
-        input.style.opacity = "1";
-        input.placeholder = "پاسخ خود را بنویسید...";
-        
-        document.getElementById("submitBtn").disabled = false;
-        
-        msg.innerText = "";
-        video.style.display = "none";
-        lockStatus.innerHTML = "📝 آزمون ریست شد • فقط یک فرصت";
-    }
-}
-
-// ریست با کلیک چندباره روی هشدار (مخفی)
-let clickCount = 0;
-document.querySelector('.warning-badge').addEventListener('click', function() {
-    clickCount++;
-    if (clickCount >= 3) {
-        if (confirm('آیا می‌خواهید آزمون را ریست کنید؟')) {
-            resetQuiz();
-        }
-        clickCount = 0;
     }
 });
 
