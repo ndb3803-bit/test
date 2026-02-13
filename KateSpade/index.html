@@ -843,6 +843,321 @@
             font-size: 60px;
             margin-bottom: 20px;
         }
+        /* بخش هیرو با ویدیوی پس‌زمینه */
+.hero-section {
+    height: 80vh;
+    background: linear-gradient(135deg, #ff4d8d, #6a11cb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-bottom: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.9;
+}
+
+.video-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255, 77, 141, 0.9), rgba(106, 17, 203, 0.9));
+    color: white;
+    position: relative;
+}
+
+.video-fallback i {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+    color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.video-fallback span {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.video-link {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: white;
+    color: #ff4d8d;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.video-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background-color: #ff4d8d;
+    color: white;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    margin: 0 20px;
+}
+
+.hero-content .hero-title {
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    animation: fadeInDown 1s ease;
+    color: white;
+}
+
+.hero-content .hero-subtitle {
+    font-size: 24px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease 0.3s both;
+    color: white;
+}
+
+.hero-content .hero-quote {
+    font-style: italic;
+    font-size: 20px;
+    border-right: 3px solid #ff4d8d;
+    padding-right: 15px;
+    margin-top: 30px;
+    animation: fadeIn 1s ease 0.6s both;
+    color: white;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ریسپانسیو */
+@media (max-width: 768px) {
+    .hero-content .hero-title {
+        font-size: 36px;
+    }
+    
+    .hero-content .hero-subtitle {
+        font-size: 20px;
+    }
+    
+    .hero-content .hero-quote {
+        font-size: 18px;
+    }
+    
+    .video-fallback i {
+        font-size: 60px;
+    }
+    
+    .video-fallback span {
+        font-size: 18px;
+        padding: 0 20px;
+    }
+    
+    .video-link {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}
+/* استایل ویدیوی هیرو - پخش در همان صفحه */
+.hero-section {
+    height: 80vh;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 80px;
+}
+
+.video-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+}
+
+/* استایل برای پخش‌کننده اختصاصی */
+.hero-video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* استایل برای تصویر placeholder */
+.custom-video-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.video-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.play-button-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 3;
+}
+
+.play-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.play-btn i {
+    font-size: 80px;
+    color: white;
+    text-shadow: 0 0 30px rgba(0,0,0,0.5);
+    animation: pulse 2s infinite;
+}
+
+.play-btn span {
+    font-size: 20px;
+    background: rgba(0,0,0,0.7);
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+}
+
+/* نشانگر زمان */
+.video-time-overlay {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 4;
+}
+
+.time-badge, .time-hint {
+    background: rgba(255, 77, 141, 0.9);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    backdrop-filter: blur(5px);
+}
+
+.video-controls-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 4;
+}
+
+/* محتوای متن روی ویدیو */
+.hero-content.overlay {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    color: white;
+}
+
+.hero-content.overlay .hero-title {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.hero-content.overlay .hero-subtitle {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.hero-content.overlay .hero-quote {
+    font-size: 20px;
+    border-right: 3px solid #ff4d8d;
+    padding-right: 15px;
+    color: white;
+}
+
+/* انیمیشن */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* ریسپانسیو */
+@media (max-width: 768px) {
+    .hero-content.overlay .hero-title {
+        font-size: 36px;
+    }
+    .hero-content.overlay .hero-subtitle {
+        font-size: 20px;
+    }
+    .play-btn i {
+        font-size: 60px;
+    }
+    .play-btn span {
+        font-size: 16px;
+    }
+}
     </style>
 </head>
 <body>
@@ -893,42 +1208,23 @@
             </div>
         </header>
 
-        <!-- بخش هیرو -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title">کیت اسپید</h1>
-                <p class="hero-subtitle">طراح مد، کارآفرین و بنیان‌گذار برند جهانی کیتبگ</p>
-                <p class="hero-quote">"سبک باید چیزی باشد که شما را شاد کند، نه چیزی که شما را محدود کند."</p>
-            </div>
-        </section>
 
-        <!-- بخش بیوگرافی -->
-        <section id="bio" class="bio-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2><span class="title-decoration">زندگی‌نامه کیت اسپید</span></h2>
-                    <p>آشنایی با زندگی الهام‌بخش زنی که دنیای مد را با شادی و رنگ‌آمیزی دگرگون کرد</p>
-                </div>
-                
-                <div class="bio-content">
-                    <div class="bio-text">
-                        <h2>کیت برازنر اسپید</h2>
-                        <p>کیت اسپید (زاده ۲۴ دسامبر ۱۹۶۲ - درگذشته ۵ ژوئن ۲۰۱۸) طراح مد آمریکایی و بنیان‌گذار برند معروف کیت اسپید نیویورک بود. او با طراحی‌های شاد، رنگارنگ و کاربردی خود در دنیای مد و فشن انقلابی ایجاد کرد.</p>
-                        
-                        <p>کیت در کانزاس سیتی میزوری به دنیا آمد و در دانشگاه ایالتی آریزونا در رشته روزنامه‌نگاری تحصیل کرد. پس از فارغ‌التحصیلی، به نیویورک نقل مکان کرد و در مجله Mademoiselle به عنوان دستیار سردبیر شروع به کار کرد. تجربه او در صنعت مد و انتشارات، زمینه‌ساز تأسیس برند شخصی‌اش شد.</p>
-                        
-                        <div class="bio-highlight">
-                            <h3><i class="fas fa-lightbulb"></i> ایده آغازین</h3>
-                            <p>ایده اصلی تأسیس برند از زمانی شکل گرفت که کیت متوجه شد بازار فاقد کیف‌های دستی شیک، کاربردی و در عین حال مقرون‌به‌صرفه برای زنان جوان حرفه‌ای است. او با همسرش اندی اسپید، در سال ۱۹۹۳ با سرمایه اولیه ۳۵,۰۰۰ دلار اولین مجموعه کیف خود را طراحی و تولید کرد.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bio-image">
-                        <img src="https://images.pexels.com/photos/3768005/pexels-photo-3768005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="کیت اسپید" class="bio-img">
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- بخش هیرو - ویدیو از گوگل درایو -->
+<section class="hero-section">
+    <div class="video-wrapper">
+        <div class="video-container">
+            <iframe 
+                src="https://drive.google.com/file/d/1iqSyBPFeOA0m5IzNhQNAB-UshFpSOt2M/preview?start=0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen
+                scrolling="no"
+                frameborder="0"
+                class="hero-video"
+                id="kate-video">
+            </iframe>
+        </div>
+    </div>
+</section>
 
         <!-- بخش نکات کلیدی زندگی -->
         <section id="keypoints" class="keypoints-section">
@@ -944,7 +1240,7 @@
                             <i class="fas fa-graduation-cap"></i>
                         </div>
                         <h3>تحصیلات و شروع کار</h3>
-                        <p>کیت در رشته روزنامه‌نگاری تحصیل کرد و کار خود را در مجله Mademoiselle آغاز نمود. تجربه او در صنعت انتشارات به درک عمیق‌تری از سلیقه زنان جوان منجر شد.</p>
+                        <p>کیت در رشته روزنامه‌نگاری تحصیل کرد و کار خود را در مجله Mademoiselle آغاز نمود.</p>
                     </div>
                     
                     <div class="keypoint-card">
@@ -1099,10 +1395,6 @@
         <!-- بخش میراث -->
         <section id="legacy" class="legacy-section">
             <div class="container">
-                <div class="section-title">
-                    <h2><span class="title-decoration">میراث کیت اسپید</span></h2>
-                    <p>تأثیر ماندگار کیت اسپید بر صنعت مد و زندگی زنان</p>
-                </div>
                 
                 <div class="legacy-content">
                     <div class="legacy-stats">
@@ -1128,9 +1420,9 @@
                     </div>
                     
                     <div class="legacy-text">
-                        <h3>تأثیر فرهنگی و اجتماعی</h3>
-                        <p>کیت اسپید نه تنها یک برند مد ایجاد کرد، بلکه جنبشی فرهنگی به راه انداخت. او ثابت کرد که مد می‌تواند هم شاد باشد و هم کاربردی، هم زیبا باشد و هم در دسترس.</p>
-                        <p>فلسفه زندگی او مبتنی بر شادی، رنگ‌آمیزی و سادگی بود. او به زنان آموخت که سبک شخصی خود را داشته باشند و از طریق مد، شخصیت خود را بیان کنند. میراث کیت اسپید امروز در صدها فروشگاه در سراسر جهان و در قلب میلیون‌ها زنی که از محصولاتش استفاده می‌کنند، زنده است.</p>
+                        <h3>ارزش برند اسپید</h3>
+                        <p>در سال 2017 ارزش فروش برند اسپید 2.4 میلیارد بوده است</p>
+                        <p>همچنین میزان ثروت شخصی کیت در زمان مرگش 200 میلیون دلار تخمین زده میشود</p>
                     </div>
                 </div>
             </div>
@@ -1154,7 +1446,6 @@
                     <div class="footer-section">
                         <h3>لینک‌های سریع</h3>
                         <ul class="footer-links">
-                            <li><a href="#bio"><i class="fas fa-user"></i> بیوگرافی</a></li>
                             <li><a href="#keypoints"><i class="fas fa-star"></i> نکات کلیدی</a></li>
                             <li><a href="#timeline"><i class="fas fa-history"></i> جدول زمانی</a></li>
                             <li><a href="#quotes"><i class="fas fa-quote-right"></i> نقل‌قول‌ها</a></li>
