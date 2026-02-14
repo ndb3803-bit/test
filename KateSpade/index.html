@@ -738,6 +738,147 @@
             color: #aaa;
             font-size: 15px;
         }
+        /* استایل تایتل روی ویدیو */
+.hero-overlay-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+    pointer-events: none; /* اجازه کلیک به ویدیو */
+}
+
+.title-container {
+    text-align: center;
+    color: white;
+    max-width: 900px;
+    padding: 40px;
+    animation: titleAppear 1.5s ease;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.title-breaking {
+    display: inline-block;
+    background: #ff4d8d;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 30px rgba(255, 77, 141, 0.5);
+    text-transform: uppercase;
+}
+
+.title-main {
+    font-size: 72px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #fff, #ff9ec0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(255, 77, 141, 0.3);
+    letter-spacing: -1px;
+    line-height: 1.2;
+}
+
+.title-sub {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #fff;
+    text-shadow: 3px 3px 0 #ff4d8d;
+    letter-spacing: -0.5px;
+}
+
+.title-decoration-line {
+    width: 150px;
+    height: 4px;
+    background: linear-gradient(to right, transparent, #ff4d8d, #fff, #ff4d8d, transparent);
+    margin: 25px auto;
+}
+
+.title-date {
+    font-size: 20px;
+    opacity: 0.9;
+    display: block;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: #ff9ec0;
+}
+
+/* انیمیشن تایتل */
+@keyframes titleAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* انیمیشن pulse برای بخش خبر فوری */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255, 77, 141, 0.5);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 40px rgba(255, 77, 141, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255, 77, 141, 0.5);
+    }
+}
+
+/* ریسپانسیو */
+@media (max-width: 992px) {
+    .title-main {
+        font-size: 56px;
+    }
+    .title-sub {
+        font-size: 38px;
+    }
+}
+
+@media (max-width: 768px) {
+    .title-main {
+        font-size: 42px;
+    }
+    .title-sub {
+        font-size: 28px;
+    }
+    .title-breaking {
+        font-size: 14px;
+        padding: 8px 20px;
+    }
+    .title-date {
+        font-size: 16px;
+    }
+    .title-container {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-main {
+        font-size: 32px;
+    }
+    .title-sub {
+        font-size: 22px;
+    }
+}
         
         /* انیمیشن‌ها */
         @keyframes fadeInDown {
@@ -1222,6 +1363,17 @@
                 class="hero-video"
                 id="kate-video">
             </iframe>
+        </div>
+    </div>
+    
+    <!-- تایتل جدید با طراحی خوشکل -->
+    <div class="hero-overlay-title">
+        <div class="title-container">
+            <span class="title-breaking">🚨 خبر فوری</span>
+            <h1 class="title-main">کیت اسپید</h1>
+            <h2 class="title-sub">طراح معروف خودکشی کرد</h2>
+            <div class="title-decoration-line"></div>
+            <span class="title-date">۵ ژوئن ۲۰۱۸ - نیویورک</span>
         </div>
     </div>
 </section>
